@@ -20,7 +20,6 @@ app.use(
 app.use(express.json());
 app.use('/example', ExampleRoutes);
 
-/*
 mongoose.connect(process.env.DATABASE_URL || "")
 .then(() => {
     console.log('Conectamos ao MongoDB!')
@@ -29,6 +28,4 @@ mongoose.connect(process.env.DATABASE_URL || "")
     })
 })
 .catch((err) => console.log(err));
-*/
 
-app.listen(port);
