@@ -2,11 +2,13 @@ import { Schema, model } from "mongoose";
 
 interface iNotifications{
     postID: string;
+    postSlug: string;
     text: string;
 }
 interface iFollower{
     userID: string;
     userName: string;
+    userSlug: string;
 }
 
 interface iUser{
