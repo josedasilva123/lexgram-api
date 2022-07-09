@@ -1,8 +1,11 @@
 import { Router } from "express";
-import { EXAMPLE_GET } from "../controllers/example";
+import { EXAMPLE_GET, EXAMPLE_GETFILE, EXAMPLE_UPLOAD } from "../controllers/example";
+import { MulterFileHandler } from "../middlewares/multer";
 
 const router: Router = Router();
 
 router.get('/', EXAMPLE_GET);
+router.post('/upload', MulterFileHandler.single('file'), EXAMPLE_UPLOAD);
+router.get('/upload/:fileId', EXAMPLE_GETFILE);
 
 export default router;
