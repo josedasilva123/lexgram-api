@@ -62,9 +62,7 @@ export const POST_CREATE = async (req: Request, res: Response) => {
 
     const response = await Post.create(newPost);
 
-    res
-      .status(200)
-      .json({ message: "Post criado com sucesso!", post: response });
+    res.status(200).json({ message: "Post criado com sucesso!", post: response });
   } catch (error: any) {
     response.status(400).json({ error: error.message });
   }
@@ -102,9 +100,9 @@ export const FOLLOWERS_POSTS_GET = async (req: Request<{},{},{}, iPostGetQuery>,
 
     const next = nextPage('', count, user, page, perPage);
 
-    const response = await Post.find(query).skip(skip).limit(Number(perPage));
+    const posts = await Post.find(query).skip(skip).limit(Number(perPage));
 
-    res.status(200).json({ count, next, posts: response });
+    res.status(200).json({ count, next, posts });
   } catch (error: any) {
     response.status(400).json({ error: error.message });
   }
@@ -130,9 +128,9 @@ export const USER_POSTS_GET = async (req: Request<{},{},{}, iPostGetQuery>, res:
 
     const next = nextPage('', count, user, page, perPage);
 
-    const response = await Post.find(query).skip(skip).limit(Number(perPage));
+    const posts = await Post.find(query).skip(skip).limit(Number(perPage));
 
-    res.status(200).json({ count, next, posts: response });
+    res.status(200).json({ count, next, posts });
   } catch (error: any) {
     response.status(400).json({ error: error.message });
   }
