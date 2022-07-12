@@ -6,6 +6,13 @@ import sharp from "sharp";
 import User, { iFollower } from "../models/user";
 import Post from "../models/post";
 import { ObjectId } from "mongodb";
+import { nextPage } from "../functions/utils/pagination";
+
+interface iPostGetQuery{
+  user: string;
+  page: string;
+  perPage: string;
+}
 
 export const POST_CREATE = async (req: Request, res: Response) => {
   try {
@@ -63,7 +70,7 @@ export const POST_CREATE = async (req: Request, res: Response) => {
   }
 };
 
-export const FOLLOWERS_POSTS_GET = async (req: Request, res: Response) => {
+export const FOLLOWERS_POSTS_GET = async (req: Request<{},{},{}, iPostGetQuery>, res: Response) => {
   try {
     const { user, page, perPage } = req.query;
 
@@ -93,15 +100,7 @@ export const FOLLOWERS_POSTS_GET = async (req: Request, res: Response) => {
 
     const count = await Post.find(query).count();
 
-    const formula = skip + Number(perPage);
-
-    let next;
-
-    if(count > formula){
-      next = `?user=${user}&page=${Number(page) + 1}&perPage=${perPage}&`;
-    } else {
-      next = false;
-    }
+    const next = nextPage('', count, user, page, perPage);
 
     const response = await Post.find(query).skip(skip).limit(Number(perPage));
 
@@ -111,8 +110,7 @@ export const FOLLOWERS_POSTS_GET = async (req: Request, res: Response) => {
   }
 };
 
-
-export const USER_POSTS_GET = async (req: Request, res: Response) => {
+export const USER_POSTS_GET = async (req: Request<{},{},{}, iPostGetQuery>, res: Response) => {
   try {
     const { user, page, perPage } = req.query;
 
@@ -122,23 +120,15 @@ export const USER_POSTS_GET = async (req: Request, res: Response) => {
       );
     }
 
-    const skip = Number(page) * Number(perPage);
-
     const query = {
       userID: user,
     };
 
     const count = await Post.find(query).count();
 
-    const formula = skip + Number(perPage);
+    const skip = Number(page) * Number(perPage);
 
-    let next;
-
-    if(count > formula){
-      next = `?user=${user}&page=${Number(page) + 1}&perPage=${perPage}&`;
-    } else {
-      next = false;
-    }
+    const next = nextPage('', count, user, page, perPage);
 
     const response = await Post.find(query).skip(skip).limit(Number(perPage));
 
