@@ -5,13 +5,13 @@ interface iNotifications{
     postSlug: string;
     text: string;
 }
-interface iFollower{
+export interface iFollower{
     userID: string;
     userName: string;
     userSlug: string;
 }
 
-interface iUser{
+export interface iUser{
     name: string;
     email: string;
     password: string;
