@@ -5,125 +5,133 @@ import { ObjectId } from "mongodb";
 
 import User from "../models/user";
 
-export const USER_REGISTER = async (req: Request, res: Response) => {
-  try {
-    const { name, email, password, slug } = req.body;
+export default class UserControllers {
+  static async Register(req: Request, res: Response) {
+    try {
+      const { name, email, password, slug } = req.body;
 
-    if (!name || !email || !password || !slug) {
-      throw new Error("Parece que algum parâmetro obrigatório do body está faltando.")
+      if (!name || !email || !password || !slug) {
+        throw new Error(
+          "Parece que algum parâmetro obrigatório do body está faltando."
+        );
+      }
+
+      const existingEmail = await User.findOne({ email: email });
+      const existingSlug = await User.findOne({ email: email });
+
+      if (existingEmail) {
+        throw new Error(
+          "O e-mail fornecido já pertece a um usuário cadastrado."
+        );
+      }
+
+      if (existingSlug) {
+        throw new Error("O slug já pertence a usuário cadastrado.");
+      }
+
+      const currentDate = new Date();
+
+      const newUser = {
+        name,
+        email,
+        password: bcrypt.hashSync(password, 1),
+        slug,
+        createdAt: currentDate,
+        updatedAt: currentDate,
+      };
+
+      await User.create(newUser);
+
+      res.status(200).json({ message: "Cadastrado realizado com sucesso!" });
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
     }
-
-    const existingEmail = await User.findOne({ email: email });
-    const existingSlug = await User.findOne({ email: email });
-
-    if (existingEmail) {
-      throw new Error("O e-mail fornecido já pertece a um usuário cadastrado.");
-    }
-
-    if (existingSlug) {
-      throw new Error("O slug já pertence a usuário cadastrado.");
-    }
-
-    const currentDate = new Date();
-
-    const newUser = {
-      name,
-      email,
-      password: bcrypt.hashSync(password, 1),
-      slug,
-      createdAt: currentDate,
-      updatedAt: currentDate,
-    };
-
-    await User.create(newUser);
-
-    res.status(200).json({ message: "Cadastrado realizado com sucesso!" });
-  } catch (error: any) {
-    res.status(400).json({ error: error.message });
   }
-};
 
-export const USER_LOGIN = async (req: Request, res: Response) => {
-  try {
-    const { email, password } = req.body;
+  static async Login(req: Request, res: Response) {
+    try {
+      const { email, password } = req.body;
 
-    if (!email || !password) {
-      throw new Error("Parece que algum parâmetro obrigatório do body está faltando.");
+      if (!email || !password) {
+        throw new Error(
+          "Parece que algum parâmetro obrigatório do body está faltando."
+        );
+      }
+
+      const existingUser = await User.findOne({ email: email });
+
+      if (!existingUser) {
+        throw new Error("Nenhum usuário vínculado a esse e-mail encontrado.");
+      }
+
+      if (!bcrypt.compareSync(password, existingUser.password)) {
+        throw new Error("E-mail e senha não correspondem.");
+      }
+
+      const secretKey = process.env.JWT_SECRET_KEY;
+
+      if (!secretKey) {
+        throw new Error("Falha na API: contate o responsável pela aplicação");
+      }
+
+      const token = jwt.sign(
+        {
+          id: existingUser._id,
+        },
+        secretKey,
+        { expiresIn: "12h" }
+      );
+
+      res.status(200).json({
+        user: {
+          id: existingUser._id,
+          name: existingUser.name,
+          email: existingUser.email,
+          slug: existingUser.slug,
+          createAt: existingUser.createAt,
+          updateAt: existingUser.updateAt,
+          profileImage: existingUser.profileImage,
+          profileBio: existingUser.profileBio,
+          notifications: existingUser.notifications,
+          follow: existingUser.follow,
+          followers: existingUser.followers,
+        },
+        token: token,
+      });
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
     }
-
-    const existingUser = await User.findOne({ email: email });
-
-    if (!existingUser) {
-      throw new Error("Nenhum usuário vínculado a esse e-mail encontrado.");
-    }
-
-    if (!bcrypt.compareSync(password, existingUser.password)) {
-      throw new Error("E-mail e senha não correspondem.");
-    }
-
-    const secretKey = process.env.JWT_SECRET_KEY;
-
-    if (!secretKey) {
-      throw new Error("Falha na API: contate o responsável pela aplicação");
-    }
-
-    const token = jwt.sign(
-      {
-        id: existingUser._id,
-      },
-      secretKey,
-      { expiresIn: "12h" }
-    );
-
-    res.status(200).json({
-      user: {
-        id: existingUser._id,
-        name: existingUser.name,
-        email: existingUser.email,
-        slug: existingUser.slug,
-        createAt: existingUser.createAt,
-        updateAt: existingUser.updateAt,
-        profileImage: existingUser.profileImage,
-        profileBio: existingUser.profileBio,
-        notifications: existingUser.notifications,
-        follow: existingUser.follow,
-        followers: existingUser.followers,
-      },
-      token: token,
-    });
-  } catch (error: any) {
-    res.status(400).json({ error: error.message });
   }
-};
 
-export const USER_AUTOLOGIN = async (req: Request, res: Response) => {
-  try {
-    const { decodedID } = req.body;
+  static async AutoLogin(req: Request, res: Response) {
+    try {
+      const { decodedID } = req.body;
 
-    const userID = new ObjectId(decodedID);
+      const userID = new ObjectId(decodedID);
 
-    const existingUser = await User.findOne({ _id: userID });
+      const existingUser = await User.findOne({ _id: userID });
 
-    if (!existingUser) {
-      throw new Error("Usuário não encontrado.");
+      if (!existingUser) {
+        throw new Error("Usuário não encontrado.");
+      }
+
+      res.status(200).json({
+        user: {
+          id: existingUser._id,
+          name: existingUser.name,
+          email: existingUser.email,
+          slug: existingUser.slug,
+          createAt: existingUser.createAt,
+          updateAt: existingUser.updateAt,
+          profileImage: existingUser.profileImage,
+          profileBio: existingUser.profileBio,
+          notifications: existingUser.notifications,
+          follow: existingUser.follow,
+          followers: existingUser.followers,
+        },
+      });
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
     }
-
-    res.status(200).json({
-      user: {
-        id: existingUser._id,
-        name: existingUser.name,
-        email: existingUser.email,
-        slug: existingUser.slug,
-        createAt: existingUser.createAt,
-        updateAt: existingUser.updateAt,
-        profileImage: existingUser.profileImage,
-        profileBio: existingUser.profileBio,
-        notifications: existingUser.notifications,
-        follow: existingUser.follow,
-        followers: existingUser.followers,
-      },
-    });
-  } catch (error: any) {
-    res.status(400).json({ error: error.message });
   }
-};
+}
