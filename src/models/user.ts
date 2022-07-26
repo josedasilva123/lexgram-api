@@ -1,31 +1,7 @@
 import { Schema, model } from "mongoose";
+import { User, Notifications, Follower } from "../interfaces/user";
 
-interface iNotifications{
-    postID: string;
-    postSlug: string;
-    text: string;
-}
-export interface iFollower{
-    userID: string;
-    userName: string;
-    userSlug: string;
-}
-
-export interface iUser{
-    name: string;
-    email: string;
-    password: string;
-    slug: string;
-    createAt: Date;
-    updateAt: Date;
-    profileImage?: string;
-    profileBio?: string;
-    notifications?: iNotifications[];
-    follow?: iFollower[];
-    followers?: iFollower[];
-}
-
-const userSchema = new Schema<iUser>({
+const userSchema = new Schema<User>({
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
@@ -34,11 +10,11 @@ const userSchema = new Schema<iUser>({
     updateAt: { type: Date, required: true },
     profileImage: String,
     profileBio: String,
-    notifications: Array<iNotifications>,
-    follow: Array<iFollower>,
-    followers: Array<iFollower>,
+    notifications: Array<Notifications>,
+    follow: Array<Follower>,
+    followers: Array<Follower>,
   });
 
-const User = model<iUser>("User", userSchema);
+const User = model<User>("User", userSchema);
 
 export default User;

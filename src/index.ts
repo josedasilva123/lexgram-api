@@ -4,6 +4,7 @@ import cors from "cors"
 import mongoose from "mongoose";
 
 import ExampleRoutes from "./routes/example"
+import UserRoutes from "./routes/user"
 
 dotenv.config();
 
@@ -18,7 +19,9 @@ app.use(
     })
 )
 app.use(express.json());
+
 app.use('/example', ExampleRoutes);
+app.use('/users', UserRoutes);
 
 mongoose.connect(process.env.DATABASE_URL || "")
 .then(() => {

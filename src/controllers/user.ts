@@ -5,8 +5,11 @@ import { ObjectId } from "mongodb";
 
 import User from "../models/user";
 
+import { AutoLoginBody, LoginBody, LoginSucessResponse, RegisterBody, RegisterSucessResponse } from "../interfaces/user";
+import { ErrorResponse } from "../interfaces/global";
+
 export default class UserControllers {
-  static async Register(req: Request, res: Response) {
+  static async Register(req: Request<{}, {}, RegisterBody, {}>, res: Response<RegisterSucessResponse | ErrorResponse>) {
     try {
       const { name, email, password, slug } = req.body;
 
@@ -48,7 +51,7 @@ export default class UserControllers {
     }
   }
 
-  static async Login(req: Request, res: Response) {
+  static async Login(req: Request<{}, {}, LoginBody, {}>, res: Response<LoginSucessResponse | ErrorResponse>) {
     try {
       const { email, password } = req.body;
 
@@ -64,7 +67,7 @@ export default class UserControllers {
         throw new Error("Nenhum usuário vínculado a esse e-mail encontrado.");
       }
 
-      if (!bcrypt.compareSync(password, existingUser.password)) {
+      if (existingUser.password && !bcrypt.compareSync(password, existingUser.password)) {
         throw new Error("E-mail e senha não correspondem.");
       }
 
@@ -103,7 +106,7 @@ export default class UserControllers {
     }
   }
 
-  static async AutoLogin(req: Request, res: Response) {
+  static async AutoLogin(req: Request<{}, {}, AutoLoginBody, {}>, res: Response<LoginSucessResponse | ErrorResponse>) {
     try {
       const { decodedID } = req.body;
 
