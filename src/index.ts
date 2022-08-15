@@ -1,7 +1,9 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors"
-import mongoose from "mongoose";
+
+import { connect } from "./config/db";
+import Logger from "./config/logger";
 
 import ExampleRoutes from "./routes/example"
 import UserRoutes from "./routes/user"
@@ -23,12 +25,7 @@ app.use(express.json());
 app.use('/example', ExampleRoutes);
 app.use('/users', UserRoutes);
 
-mongoose.connect(process.env.DATABASE_URL || "")
-.then(() => {
-    console.log('Conectamos ao MongoDB!')
-    app.listen(port, () => {
-        console.log('[SERVER] API iniciou com sucesso!');
-    })
+app.listen(port, async() => {
+    await connect();
+    Logger.info(`Aplicação iniciada com sucesso na porta: ${port}`);
 })
-.catch((err) => console.log(err));
-

@@ -8,7 +8,8 @@ import { nextPage } from "../functions/utils/pagination";
 import { iPostGetQuery } from "../interfaces/post";
 
 import Post from "../models/post";
-import User, { iFollower } from "../models/user";
+import User from "../models/user";
+import { Follower } from "../interfaces/user"
 
 export default class PostControllers{
   static async Create(req: Request, res: Response){
@@ -70,7 +71,7 @@ export default class PostControllers{
   static async GetFollowersPost(req: Request<{}, {}, {}, iPostGetQuery>, res: Response){
     try {
       const { user, page, perPage } = req.query;
-  
+
       if (!user || !page || !perPage) {
         throw new Error(
           "Parece que algum parâmetro obrigatório da query está faltando."
@@ -87,7 +88,7 @@ export default class PostControllers{
         throw new Error("O usuário fornecido é inválido!");
       }
   
-      const followersID = currentUser.followers.map((follower: iFollower) => {
+      const followersID = currentUser.followers.map((follower: Follower) => {
         return follower.userID;
       });
   
