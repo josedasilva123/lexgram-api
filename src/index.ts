@@ -3,7 +3,6 @@ import express from "express";
 import cors from "cors"
 
 import { connect } from "./config/db";
-import Logger from "./config/logger";
 
 import ExampleRoutes from "./routes/example"
 import UserRoutes from "./routes/user"
@@ -27,5 +26,5 @@ app.use('/users', UserRoutes);
 
 app.listen(port, async() => {
     await connect();
-    Logger.info(`Aplicação iniciada com sucesso na porta: ${port}`);
+    console.log(`Aplicação iniciada com sucesso na porta: ${port}`);
 })
