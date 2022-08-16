@@ -1,5 +1,5 @@
 export interface iPostGetQuery {
-  user: string;
-  page: string;
-  perPage: string;
+  user?: string;
+  page?: string;
+  perPage?: string;
 }

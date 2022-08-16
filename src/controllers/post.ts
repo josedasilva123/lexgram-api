@@ -16,12 +16,6 @@ export default class PostControllers{
     try {
       const { userID, description } = req.body;
   
-      if (!userID || !description) {
-        throw new Error(
-          "Parece que algum parâmetro obrigatório da query está faltando."
-        );
-      }
-  
       const file = req.file;
   
       if (!file) {
@@ -68,7 +62,7 @@ export default class PostControllers{
     }
   }
 
-  static async GetFollowersPost(req: Request<{}, {}, {}, iPostGetQuery>, res: Response){
+  static async GetFollowersPosts(req: Request<{}, {}, {}, iPostGetQuery>, res: Response){
     try {
       const { user, page, perPage } = req.query;
 

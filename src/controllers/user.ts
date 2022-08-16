@@ -13,12 +13,6 @@ export default class UserControllers {
     try {
       const { name, email, password, slug } = req.body;
 
-      if (!name || !email || !password || !slug) {
-        throw new Error(
-          "Parece que algum parâmetro obrigatório do body está faltando."
-        );
-      }
-
       const existingEmail = await User.findOne({ email: email });
       const existingSlug = await User.findOne({ email: email });
 
@@ -54,12 +48,6 @@ export default class UserControllers {
   static async Login(req: Request<{}, {}, LoginBody, {}>, res: Response<LoginSucessResponse | ErrorResponse>) {
     try {
       const { email, password } = req.body;
-
-      if (!email || !password) {
-        throw new Error(
-          "Parece que algum parâmetro obrigatório do body está faltando."
-        );
-      }
 
       const existingUser = await User.findOne({ email: email });
 
