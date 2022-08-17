@@ -12,9 +12,7 @@ export const userRegisterValidation = () => {
         .withMessage('É necessário um e-mail válido'),
         body('password')
         .isString()
-        .withMessage('A senha (password) é obrigatória')
-        .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
-        .withMessage('A senha precisa conter pelo menos oito dígitos, um número e uma letra.'),
+        .withMessage('A senha (password) é obrigatória'),
         body('slug')
         .isString()
         .withMessage('O slug (slug) é obrigatório')

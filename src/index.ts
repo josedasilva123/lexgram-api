@@ -23,12 +23,12 @@ app.use(
 app.use(express.json());
 
 // app.use('/example', ExampleRoutes);
+
 app.use('/users', UserRoutes);
-app.use('/following/', FollowerRoutes);
 app.use('/post', PostRoutes);
+app.use('/follower', FollowerRoutes);
 
-
-app.listen(port, async() => {
+app.listen(port, async () => {
     await connect();
     console.log(`Aplicação iniciada com sucesso na porta: ${port}`);
 })

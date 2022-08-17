@@ -14,7 +14,7 @@ export default class UserControllers {
       const { name, email, password, slug } = req.body;
 
       const existingEmail = await User.findOne({ email: email });
-      const existingSlug = await User.findOne({ email: email });
+      const existingSlug = await User.findOne({ slug: slug });
 
       if (existingEmail) {
         throw new Error(
