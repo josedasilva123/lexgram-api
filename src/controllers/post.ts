@@ -48,8 +48,6 @@ export default class PostControllers {
         throw new Error("Desculpe! Não foi possível realizar o upload!");
       }
 
-      const currentDate = new Date();
-
       const newPost = {
         userID,
         image: upload.data.image,
