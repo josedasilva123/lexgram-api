@@ -11,3 +11,5 @@ const router: Router = Router();
 router.post('/', postCreateValidation(),Validate, Authenticate, PostControllers.Create);
 router.get('/followers/', Authenticate, PostControllers.GetFollowersPosts);
 router.get('/user/:id', Authenticate, PostControllers.GetUserPosts);
+
+export default Router;

@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import { ObjectId } from "mongodb";
+import { FollowBody, UnfollowBody } from "../interfaces/follower";
 import { iFollower, iUser } from "../interfaces/user";
 import User from "../models/user";
 
 export default class FollowerControllers {
-  static async Follow(req: Request, res: Response) {
+  static async Follow(req: Request<{}, {}, FollowBody, {}>, res: Response) {
     try {
       const { userID, followID, userName, followName, userSlug, followSlug } =
         req.body;
@@ -83,9 +84,9 @@ export default class FollowerControllers {
     }
   }
 
-  static async Unfollow(req: Request, res: Response) {
+  static async Unfollow(req: Request<{}, {}, UnfollowBody, {}>, res: Response) {
     try {
-      const { userID, followID, userSlug, followSlug } = req.body;
+      const { userID, followID } = req.body;
       const objectUserID = new ObjectId(String(userID));
       const objectFollowID = new ObjectId(String(followID));
 
@@ -113,7 +114,7 @@ export default class FollowerControllers {
       );
 
       await User.updateOne(
-        { slug: userSlug },
+        { _id: objectUserID },
         {
           $set: {
             follow: newFollowList,
@@ -122,7 +123,7 @@ export default class FollowerControllers {
       );
 
       await User.updateOne(
-        { slug: followSlug },
+        { _id: objectFollowID },
         {
           $set: {
             follower: newFollowerList,

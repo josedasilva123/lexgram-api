@@ -4,8 +4,9 @@ import cors from "cors"
 
 import { connect } from "./config/db";
 
-import ExampleRoutes from "./routes/example"
-import UserRoutes from "./routes/user"
+import UserRoutes from "./routes/user";
+import PostRoutes from "./routes/post";
+import FollowerRoutes from "./routes/follower"
 
 dotenv.config();
 
@@ -21,8 +22,11 @@ app.use(
 )
 app.use(express.json());
 
-app.use('/example', ExampleRoutes);
+// app.use('/example', ExampleRoutes);
 app.use('/users', UserRoutes);
+app.use('/following/', FollowerRoutes);
+app.use('/post', PostRoutes);
+
 
 app.listen(port, async() => {
     await connect();
