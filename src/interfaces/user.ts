@@ -1,30 +1,28 @@
 import { ObjectId } from "mongodb";
 
-export interface Notifications{
+export interface iNotifications{
     postID: string;
     postSlug: string;
     text: string;
 }
 
-export interface Follower{
+export interface iFollower{
     userID: string;
     userName: string;
     userSlug: string;
 }
 
-export interface User{
-    id?: ObjectId;
+export interface iUser{
+    _id?: ObjectId;
     name: string;
     email: string;
     password?: string;
     slug: string;
-    createAt: Date;
-    updateAt: Date;
     profileImage?: string;
     profileBio?: string;
-    notifications?: Notifications[];
-    follow?: Follower[];
-    followers?: Follower[];
+    notifications?: iNotifications[] | [];
+    follow?: iFollower[] | [],
+    followers?: iFollower[] | [];
 }
 
 export interface RegisterBody{
@@ -44,7 +42,7 @@ export interface LoginBody{
 }
 
 export interface LoginSucessResponse{
-    user: User;
+    user: iUser;
     token?: string;
 }
 

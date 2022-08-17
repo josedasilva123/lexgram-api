@@ -1,20 +1,21 @@
 import { Schema, model } from "mongoose";
-import { User, Notifications, Follower } from "../interfaces/user";
+import { iNotifications, iFollower, iUser } from "../interfaces/user";
 
-const userSchema = new Schema<User>({
+const userSchema = new Schema<iUser>({
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
     slug: { type: String, required: true },
-    createAt: { type: Date, required: true },
-    updateAt: { type: Date, required: true },
     profileImage: String,
     profileBio: String,
-    notifications: Array<Notifications>,
-    follow: Array<Follower>,
-    followers: Array<Follower>,
+    notifications: Array<iNotifications>,
+    follow: Array<iFollower>,
+    followers: Array<iFollower>,
+  },
+  {
+    timestamps: true,
   });
 
-const User = model<User>("User", userSchema);
+const User = model<iUser>("User", userSchema);
 
 export default User;
