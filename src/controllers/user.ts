@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 
 import User from "../models/user";
 
-import { AutoLoginBody, LoginBody, LoginSucessResponse, RegisterBody, RegisterSucessResponse } from "../interfaces/user";
+import { AutoLoginBody, LoginBody, LoginSucessResponse, RegisterBody, RegisterSucessResponse} from "../interfaces/user";
 import { ErrorResponse } from "../interfaces/global";
 
 export default class UserControllers {
@@ -26,15 +26,11 @@ export default class UserControllers {
         throw new Error("O slug já pertence a usuário cadastrado.");
       }
 
-      const currentDate = new Date();
-
       const newUser = {
         name,
         email,
         password: bcrypt.hashSync(password, 1),
         slug,
-        createdAt: currentDate,
-        updatedAt: currentDate,
       };
 
       await User.create(newUser);
@@ -75,12 +71,10 @@ export default class UserControllers {
 
       res.status(200).json({
         user: {
-          id: existingUser._id,
+          _id: existingUser._id,
           name: existingUser.name,
           email: existingUser.email,
           slug: existingUser.slug,
-          createAt: existingUser.createAt,
-          updateAt: existingUser.updateAt,
           profileImage: existingUser.profileImage,
           profileBio: existingUser.profileBio,
           notifications: existingUser.notifications,
@@ -108,12 +102,10 @@ export default class UserControllers {
 
       res.status(200).json({
         user: {
-          id: existingUser._id,
+          _id: existingUser._id,
           name: existingUser.name,
           email: existingUser.email,
           slug: existingUser.slug,
-          createAt: existingUser.createAt,
-          updateAt: existingUser.updateAt,
           profileImage: existingUser.profileImage,
           profileBio: existingUser.profileBio,
           notifications: existingUser.notifications,

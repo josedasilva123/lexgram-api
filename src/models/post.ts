@@ -1,35 +1,8 @@
 import { Schema, model } from "mongoose";
-
-interface iLike{
-    userID: string;
-    userName: string
-}
-
-interface iAnswers{
-    string: string;
-    userName: string;
-    text: string;
-}
-
-interface iComments{
-    userID: string;
-    userName: string;
-    likes?: iLike[];
-    answers?: iAnswers; 
-}
+import { iLike, iComments } from "../interfaces/post";
 
 
-interface iPost{
-    userID: string;
-    image: string;
-    description: string;
-    createAt: Date;
-    updateAt: Date;
-    likes?: iLike[];
-    comments?: iComments;
-}
-
-const postSchema = new Schema<iPost>({
+const postSchema = new Schema({
     userID: { type: String, required: true},
     image: { type: String, required: true},
     description: { type: String, required: true},
@@ -37,8 +10,11 @@ const postSchema = new Schema<iPost>({
     updateAt: { type: Date, required: true },
     likes: Array<iLike>,
     comments: Array<iComments>,
+},
+{
+    timestamps: true,
 })
 
-const Post = model<iPost>("Post", postSchema);
+const Post = model("Post", postSchema);
 
 export default Post;
