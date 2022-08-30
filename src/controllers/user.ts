@@ -5,11 +5,11 @@ import { ObjectId } from "mongodb";
 
 import User from "../models/user";
 
-import { AutoLoginBody, LoginBody, LoginSucessResponse, RegisterBody, RegisterSucessResponse} from "../interfaces/user";
-import { ErrorResponse } from "../interfaces/global";
+import { iAutoLoginBody, iVerifySlugQuery, iLoginBody, iLoginSucessResponse, iRegisterBody, iRegisterSucessResponse, iVerifySlugSucessResponse} from "../interfaces/user";
+import { iErrorResponse } from "../interfaces/global";
 
 export default class UserControllers {
-  static async Register(req: Request<{}, {}, RegisterBody, {}>, res: Response<RegisterSucessResponse | ErrorResponse>) {
+  static async Register(req: Request<{}, {}, iRegisterBody, {}>, res: Response<iRegisterSucessResponse | iErrorResponse>) {
     try {
       const { name, email, password, slug } = req.body;
 
@@ -36,12 +36,12 @@ export default class UserControllers {
       await User.create(newUser);
 
       res.status(200).json({ message: "Cadastrado realizado com sucesso!" });
-    } catch (error: any) {
-      res.status(400).json({ error: error.message });
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
     }
   }
 
-  static async Login(req: Request<{}, {}, LoginBody, {}>, res: Response<LoginSucessResponse | ErrorResponse>) {
+  static async Login(req: Request<{}, {}, iLoginBody, {}>, res: Response<iLoginSucessResponse | iErrorResponse>) {
     try {
       const { email, password } = req.body;
 
@@ -83,12 +83,12 @@ export default class UserControllers {
         },
         token: token,
       });
-    } catch (error: any) {
-      res.status(400).json({ error: error.message });
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
     }
   }
 
-  static async AutoLogin(req: Request<{}, {}, AutoLoginBody, {}>, res: Response<LoginSucessResponse | ErrorResponse>) {
+  static async AutoLogin(req: Request<{}, {}, iAutoLoginBody, {}>, res: Response<iLoginSucessResponse | iErrorResponse>) {
     try {
       const { decodedID } = req.body;
 
@@ -113,8 +113,23 @@ export default class UserControllers {
           followers: existingUser.followers,
         },
       });
-    } catch (error: any) {
-      res.status(400).json({ error: error.message });
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
+    }
+  }
+
+  static async VerifySlug(req: Request<{},{},{}, iVerifySlugQuery>, res: Response<iVerifySlugSucessResponse | iErrorResponse>) {
+    try {
+      const { slug } = req.query;
+      const existingSlug = await User.findOne({ slug: slug });
+
+      if(existingSlug){
+        throw new Error("O slug já está utilizado por outro usuário.")
+      }
+
+      res.status(200).json({ message: "Slug disponível."})
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
     }
   }
 }

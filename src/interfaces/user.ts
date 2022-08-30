@@ -25,27 +25,35 @@ export interface iUser{
     followers?: iFollower[] | [];
 }
 
-export interface RegisterBody{
+export interface iRegisterBody{
     name: string;
     email: string;
     password: string;
     slug: string;
 }
 
-export interface RegisterSucessResponse{
+export interface iRegisterSucessResponse{
     message: string;
 }
 
-export interface LoginBody{
+export interface iLoginBody{
     email: string;
     password: string;
 }
 
-export interface LoginSucessResponse{
+export interface iLoginSucessResponse{
     user: iUser;
     token?: string;
 }
 
-export interface AutoLoginBody{
+export interface iAutoLoginBody{
     decodedID: string;
+}
+
+export interface iVerifySlugQuery{
+    slug: string;
+}
+
+export interface iVerifySlugSucessResponse{
+    message: string;
 }
