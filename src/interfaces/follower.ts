@@ -1,6 +1,6 @@
 import { iFollower } from "./user";
 
-export interface FollowBody{
+export interface iFollowBody{
     userID: string;
     followID: string;
     userName: string;
@@ -9,18 +9,18 @@ export interface FollowBody{
     followSlug: string;
 }
 
-export interface FollowResponse{
+export interface iFollowResponse{
     message: string;
     follow: iFollower;
     follower: iFollower;
 }
 
-export interface UnfollowBody{
+export interface iUnfollowBody{
     userID: string;
     followID: string;
 }
 
-export interface UnfollowResponse{
+export interface iUnfollowResponse{
     message: string;
     follow: iFollower[];
     followers: iFollower[];

@@ -1,3 +1,3 @@
-export interface ErrorResponse{
+export interface iErrorResponse{
     error: string;
 }

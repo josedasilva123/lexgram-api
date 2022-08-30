@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { ObjectId } from "mongodb";
 
-import { FollowBody, UnfollowBody } from "../interfaces/follower";
+import { iFollowBody, iUnfollowBody } from "../interfaces/follower";
 import { iFollower, iUser } from "../interfaces/user";
 
 import User from "../models/user";
 
 export default class FollowerControllers {
-  static async Follow(req: Request<{}, {}, FollowBody, {}>, res: Response) {
+  static async Follow(req: Request<{}, {}, iFollowBody, {}>, res: Response) {
     try {
       const { userID, followID } = req.body;
 
@@ -71,7 +71,7 @@ export default class FollowerControllers {
     }
   }
 
-  static async Unfollow(req: Request<{}, {}, UnfollowBody, {}>, res: Response) {
+  static async Unfollow(req: Request<{}, {}, iUnfollowBody, {}>, res: Response) {
     try {
       const { userID, followID } = req.body;
       const objectUserID = new ObjectId(String(userID));
