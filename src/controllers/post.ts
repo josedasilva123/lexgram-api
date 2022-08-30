@@ -2,10 +2,7 @@ import { Request, Response } from "express";
 import sharp from "sharp";
 import { ObjectId } from "mongodb";
 
-import {
-  deleteServerFile,
-  uploadFile,
-} from "../functions/googledrive/fileupload";
+import { deleteServerFile, uploadFile } from "../functions/googledrive/fileupload";
 import { nextPage } from "../functions/utils/pagination";
 
 import { iPostGetQuery } from "../interfaces/post";
@@ -56,9 +53,7 @@ export default class PostControllers {
 
       const response = await Post.create(newPost);
 
-      res
-        .status(200)
-        .json({ message: "Post criado com sucesso!", post: response });
+      res.status(200).json({ message: "Post criado com sucesso!", post: response });
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }
