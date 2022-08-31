@@ -24,5 +24,4 @@ export const getUser = (userID: string) => {
     } else {
         return false;
     }
-    
 }

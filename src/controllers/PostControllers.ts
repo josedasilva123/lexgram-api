@@ -99,8 +99,8 @@ export default class PostControllers {
       const posts = await Post.find(query).skip(skip).limit(Number(perPage));
 
       res.status(200).json({ count, next, posts });
-    } catch (error: any) {
-      res.status(400).json({ error: error.message });
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
     }
   }
 
@@ -130,8 +130,8 @@ export default class PostControllers {
       const posts = await Post.find(query).skip(skip).limit(Number(perPage));
 
       res.status(200).json({ count, next, posts });
-    } catch (error: any) {
-      res.status(400).json({ error: error.message });
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
     }
   }
 }

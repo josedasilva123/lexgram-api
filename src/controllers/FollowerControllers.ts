@@ -66,8 +66,8 @@ export default class FollowerControllers {
         follow: newFollow,
         follower: newFollower,
       });
-    } catch (error: any) {
-      res.status(400).json({ error: error.message });
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
     }
   }
 
@@ -121,8 +121,8 @@ export default class FollowerControllers {
         follow: newFollowList,
         follower: newFollowerList,
       });
-    } catch (error: any) {
-      res.status(400).json({ error: error.message });
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
     }
   }
 }
