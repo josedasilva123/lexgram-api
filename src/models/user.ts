@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { iNotifications, iFollower, iUser } from "../interfaces/user";
+import { iNotification, iFollower, iUser } from "../interfaces/user";
 
 const userSchema = new Schema<iUser>({
     name: { type: String, required: true },
@@ -8,7 +8,7 @@ const userSchema = new Schema<iUser>({
     slug: { type: String, required: true },
     profileImage: String,
     profileBio: String,
-    notifications: Array<iNotifications>,
+    notifications: Array<iNotification>,
     follow: Array<iFollower>,
     followers: Array<iFollower>,
   },

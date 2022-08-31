@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 
-export interface iNotifications{
+export interface iNotification{
     postID: string;
     postSlug: string;
     text: string;
