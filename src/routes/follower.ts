@@ -4,7 +4,7 @@ import { Authenticate } from "../middlewares/authenticate";
 import { Validate } from "../middlewares/handleValidation";
 import { followValidation } from "../middlewares/validations/FollowValidations";
 
-import FollowerControllers from "../controllers/follower";
+import FollowerControllers from "../controllers/FollowerControllers";
 
 const router: Router = Router();
 

@@ -4,7 +4,7 @@ import { Authenticate } from "../middlewares/authenticate";
 import { Validate } from "../middlewares/handleValidation";
 import { userLoginValidation, userRegisterValidation } from "../middlewares/validations/UserValidations";
 
-import UserControllers from "../controllers/user";
+import UserControllers from "../controllers/UserControllers";
 
 const router: Router = Router();
 

@@ -4,7 +4,7 @@ import { Authenticate } from "../middlewares/authenticate";
 import { Validate } from "../middlewares/handleValidation";
 import { postCreateValidation } from "../middlewares/validations/PostValidations";
 
-import PostControllers from "../controllers/post";
+import PostControllers from "../controllers/PostControllers";
 
 const router: Router = Router();
 
