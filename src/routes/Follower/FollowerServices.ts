@@ -1,11 +1,18 @@
 import { ObjectId } from "mongodb";
-import { iFollower, iUser } from "../User/user";
-import { iFollowBody } from "./FollowerTypes";
+import { iFollower, iUser } from "../User/UserTypes"
+import { iFollowBody, iUpdateQuery } from "./FollowerTypes";
 import User from "../../models/user";
 
-
-
 export default class FollowerServices {
+  private static async UpdateUsers(userQueries: iUpdateQuery[]){
+    userQueries.forEach(async (user) => {
+      await User.updateOne(
+        { _id: user.id },
+        user.set
+      );
+    }) 
+  }
+
   static async Follow(body: iFollowBody) {
     const { userID, followID } = body;
 
@@ -44,36 +51,37 @@ export default class FollowerServices {
 
     const followerList = currentFollow.followers ? currentFollow.followers : [];
 
-    await User.updateOne(
-      { _id: objectUserID },
-      {
+    const followQuery = {
+      id: objectUserID,
+      set: {
         $set: {
           follow: [...followList, newFollow],
         },
       }
-    );
+    }
 
-    await User.updateOne(
-      { _id: objectFollowID },
-      {
+    const followerQuery = {
+      id: objectFollowID,
+      set: {
         $set: {
           followers: [...followerList, newFollower],
         },
       }
-    );
+    }
 
-    const response = {
+    await this.UpdateUsers([followQuery, followQuery])
+
+
+    return {
       message: "Seguir executado com sucesso!",
       follow: newFollow,
       follower: newFollower,
     };
-
-    return response;
   }
 
   static async Unfollow(body: iFollowBody) {
     const { userID, followID } = body;
-    
+
     const objectUserID = new ObjectId(String(userID));
     const objectFollowID = new ObjectId(String(followID));
 
@@ -98,23 +106,25 @@ export default class FollowerServices {
       (f: iFollower) => f.userID !== userID
     );
 
-    await User.updateOne(
-      { _id: objectUserID },
-      {
+    const followQuery = {
+      id: objectUserID,
+      set: {
         $set: {
           follow: newFollowList,
         },
       }
-    );
+    }
 
-    await User.updateOne(
-      { _id: objectFollowID },
-      {
+    const followerQuery = {
+      id: objectFollowID,
+      set: {
         $set: {
           followers: newFollowerList,
         },
       }
-    );
+    }
+
+    await this.UpdateUsers([followQuery, followerQuery]);
 
     return {
       message: "Não seguir executado com sucesso!",

@@ -20,7 +20,7 @@ export interface iUser{
     slug: string;
     profileImage?: string;
     profileBio?: string;
-    notifications?: iNotifications[] | [];
+    notifications?: iNotification[] | [];
     follow?: iFollower[] | [],
     followers?: iFollower[] | [];
 }

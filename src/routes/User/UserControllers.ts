@@ -44,7 +44,8 @@ export default class UserControllers {
     res: Response<iLoginSucessResponse | iErrorResponse>
   ) {
     try {
-      await UserServices.AutoLogin(req, res);
+      const response = await UserServices.AutoLogin(req.body);
+      res.status(200).json(response);
     } catch (error) {
       res.status(400).json({ error: (error as Error).message });
     }
@@ -56,6 +57,7 @@ export default class UserControllers {
   ) {
     try {
       const response = await UserServices.VerifySlug(req.query);
+      res.status(200).json(response);
     } catch (error) {
       res.status(400).json({ error: (error as Error).message });
     }

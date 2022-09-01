@@ -1,10 +1,7 @@
 import { Request, Response } from "express";
-
 import User from "../../models/user";
-
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
 import {
   iAutoLoginBody,
   iLoginBody,
@@ -20,8 +17,8 @@ export default class UserServices {
   static async Register(body: iRegisterBody) {
     const { name, email, password, slug } = body;
 
-    const existingEmail = await User.findOne({ email: email }) as iUser;
-    const existingSlug = await User.findOne({ slug: slug }) as iUser;
+    const existingEmail = (await User.findOne({ email: email })) as iUser;
+    const existingSlug = (await User.findOne({ slug: slug })) as iUser;
 
     if (existingEmail) {
       throw new Error("O e-mail fornecido já pertece a um usuário cadastrado.");
@@ -46,7 +43,7 @@ export default class UserServices {
   static async Login(body: iLoginBody) {
     const { email, password } = body;
 
-    const existingUser = await User.findOne({ email: email }) as iUser;
+    const existingUser = (await User.findOne({ email: email })) as iUser;
 
     if (!existingUser) {
       throw new Error("Nenhum usuário vínculado a esse e-mail encontrado.");
@@ -89,21 +86,18 @@ export default class UserServices {
     };
   }
 
-  static async AutoLogin(
-    req: Request<{}, {}, iAutoLoginBody, {}>,
-    res: Response<iLoginSucessResponse | iErrorResponse>
-  ) {
-    const { decodedID } = req.body;
+  static async AutoLogin(body: iAutoLoginBody) {
+    const { decodedID } = body;
 
     const userID = new ObjectId(decodedID);
 
-    const existingUser = await User.findOne({ _id: userID }) as iUser;
+    const existingUser = (await User.findOne({ _id: userID })) as iUser;
 
     if (!existingUser) {
       throw new Error("Usuário não encontrado.");
     }
 
-    res.status(200).json({
+    return {
       user: {
         _id: existingUser._id,
         name: existingUser.name,
@@ -115,12 +109,10 @@ export default class UserServices {
         follow: existingUser.follow,
         followers: existingUser.followers,
       },
-    });
+    };
   }
 
-  static async VerifySlug(
-    query: iVerifySlugQuery
-  ) {
+  static async VerifySlug(query: iVerifySlugQuery) {
     const { slug } = query;
     const existingSlug = await User.findOne({ slug: slug });
 

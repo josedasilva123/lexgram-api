@@ -7,7 +7,7 @@ import {
 } from "../../functions/googledrive/fileupload";
 import { nextPage } from "../../functions/utils/pagination";
 import { iCreateBody, iPostGetQuery } from "./PostTypes";
-import { iUser, iFollower } from "../User/user";
+import { iUser, iFollower } from "../User/UserTypes"
 
 import Post from "../../models/post";
 import User from "../../models/user";
