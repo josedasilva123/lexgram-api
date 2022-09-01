@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { iUser } from "../interfaces/user";
+import { iUser } from "../routes/User/user";
 import User from "../models/user";
 import { io } from "../server";
 import { connectUser, disconnectUser, getUser, iOnlineUser } from "./functions";

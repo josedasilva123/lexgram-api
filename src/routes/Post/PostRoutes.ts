@@ -1,10 +1,10 @@
 import { Router } from "express";
 
-import { Authenticate } from "../middlewares/authenticate";
-import { Validate } from "../middlewares/handleValidation";
-import { postCreateValidation } from "../middlewares/validations/PostValidations";
+import { Authenticate } from "../../middlewares/authenticate";
+import { Validate } from "../../middlewares/handleValidation";
+import { postCreateValidation } from "../../middlewares/validations/PostValidations";
 
-import PostControllers from "../controllers/PostControllers";
+import PostControllers from "./PostControllers";
 
 const router: Router = Router();
 

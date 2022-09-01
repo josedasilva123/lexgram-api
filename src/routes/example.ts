@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { EXAMPLE_GET, EXAMPLE_GETFILE, EXAMPLE_UPLOAD } from "../controllers/example";
+import { EXAMPLE_GET, EXAMPLE_GETFILE, EXAMPLE_UPLOAD } from "../controllers/ExampleControllers";
 import { MulterFileHandler } from "../middlewares/multer";
 
 const router: Router = Router();

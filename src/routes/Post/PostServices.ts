@@ -1,19 +1,34 @@
 import { Request, Response } from "express";
 import { ObjectId } from "mongodb";
 import sharp from "sharp";
-import { deleteServerFile, uploadFile } from "../../functions/googledrive/fileupload";
+import {
+  deleteServerFile,
+  uploadFile,
+} from "../../functions/googledrive/fileupload";
 import { nextPage } from "../../functions/utils/pagination";
-import { iPostGetQuery } from "../../interfaces/post";
-import { iUser, iFollower } from "../../interfaces/user";
+import { iCreateBody, iPostGetQuery } from "./PostTypes";
+import { iUser, iFollower } from "../User/user";
 
 import Post from "../../models/post";
 import User from "../../models/user";
 
 export default class PostServices {
-  static async Create(req: Request, res: Response) {
-    const { userID, description } = req.body;
+  private static async FindPosts(query: any, { user, page, perPage }: iPostGetQuery) {
+    if (user && page && perPage) {
+      const count = await Post.find(query).count();
 
-    const file = req.file;
+      const skip = Number(page) * Number(perPage);
+
+      const next = nextPage("", count, user, page, perPage);
+
+      const posts = await Post.find(query).skip(skip).limit(Number(perPage));
+
+      return { count, next, posts };
+    }
+  }
+
+  static async Create(body: iCreateBody, file: Express.Multer.File) {
+    const { userID, description } = body;
 
     if (!file) {
       throw new Error("Arquivo enviando inválido.");
@@ -50,24 +65,17 @@ export default class PostServices {
 
     const response = await Post.create(newPost);
 
-    res
-      .status(200)
-      .json({ message: "Post criado com sucesso!", post: response });
+    return { message: "Post criado com sucesso!", post: response };
   }
 
-  static async GetFollowersPosts(
-    req: Request<{}, {}, {}, iPostGetQuery>,
-    res: Response
-  ) {
-    const { user, page, perPage } = req.query;
+  static async GetFollowersPosts(query: iPostGetQuery) {
+    const { user, page, perPage } = query;
 
     if (!user || !page || !perPage) {
       throw new Error(
         "Parece que algum parâmetro obrigatório da query está faltando."
       );
     }
-
-    const skip = Number(page) * Number(perPage);
 
     const objectUserID = new ObjectId(String(user));
 
@@ -83,24 +91,17 @@ export default class PostServices {
         })
       : [];
 
-    const query = {
+    const dbQuery = {
       userID: { $in: [...followersID] },
     };
 
-    const count = await Post.find(query).count();
+    const postPage = this.FindPosts(dbQuery, query);
 
-    const next = nextPage("", count, user, page, perPage);
-
-    const posts = await Post.find(query).skip(skip).limit(Number(perPage));
-
-    res.status(200).json({ count, next, posts });
+    return postPage;
   }
 
-  static async GetUserPosts(
-    req: Request<{}, {}, {}, iPostGetQuery>,
-    res: Response
-  ) {
-    const { user, page, perPage } = req.query;
+  static async GetUserPosts(query: iPostGetQuery) {
+    const { user, page, perPage } = query;
 
     if (!user || !page || !perPage) {
       throw new Error(
@@ -108,18 +109,12 @@ export default class PostServices {
       );
     }
 
-    const query = {
+    const dbQuery = {
       userID: user,
     };
 
-    const count = await Post.find(query).count();
+    const postPage = this.FindPosts(dbQuery, query);
 
-    const skip = Number(page) * Number(perPage);
-
-    const next = nextPage("", count, user, page, perPage);
-
-    const posts = await Post.find(query).skip(skip).limit(Number(perPage));
-
-    res.status(200).json({ count, next, posts });
+    return postPage;
   }
 }

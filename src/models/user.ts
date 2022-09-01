@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { iNotification, iFollower, iUser } from "../interfaces/user";
+import { iNotification, iFollower, iUser } from "../routes/User/user";
 
 const userSchema = new Schema<iUser>({
     name: { type: String, required: true },

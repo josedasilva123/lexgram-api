@@ -1,10 +1,10 @@
 import { Router } from "express";
 
-import { Authenticate } from "../middlewares/authenticate";
-import { Validate } from "../middlewares/handleValidation";
-import { followValidation } from "../middlewares/validations/FollowValidations";
+import { Authenticate } from "../../middlewares/authenticate";
+import { Validate } from "../../middlewares/handleValidation";
+import { followValidation } from "../../middlewares/validations/FollowValidations";
 
-import FollowerControllers from "../controllers/FollowerControllers";
+import FollowerControllers from "./FollowerControllers";
 
 const router: Router = Router();
 

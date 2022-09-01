@@ -1,10 +1,10 @@
 import { Router } from "express";
 
-import { Authenticate } from "../middlewares/authenticate";
-import { Validate } from "../middlewares/handleValidation";
-import { userLoginValidation, userRegisterValidation } from "../middlewares/validations/UserValidations";
+import { Authenticate } from "../../middlewares/authenticate";
+import { Validate } from "../../middlewares/handleValidation";
+import { userLoginValidation, userRegisterValidation } from "../../middlewares/validations/UserValidations";
 
-import UserControllers from "../controllers/UserControllers";
+import UserControllers from "./UserControllers";
 
 const router: Router = Router();
 

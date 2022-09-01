@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 
-import { iAutoLoginBody, iVerifySlugQuery, iLoginBody, iLoginSucessResponse, iRegisterBody, iRegisterSucessResponse, iVerifySlugSucessResponse} from "../interfaces/user";
-import { iErrorResponse } from "../interfaces/global";
+import { iAutoLoginBody, iVerifySlugQuery, iLoginBody, iLoginSucessResponse, iRegisterBody, iRegisterSucessResponse, iVerifySlugSucessResponse} from "./user";
+import { iErrorResponse } from "../../interfaces/global";
 
-import UserServices from "../services/UserServices";
+import UserServices from "./UserServices";
 
 export default class UserControllers {
   static async Register(req: Request<{}, {}, iRegisterBody, {}>, res: Response<iRegisterSucessResponse | iErrorResponse>) {

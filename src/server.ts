@@ -2,9 +2,9 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors"
 
-import UserRoutes from "./routes/user";
-import PostRoutes from "./routes/post";
-import FollowerRoutes from "./routes/follower"
+import UserRoutes from "./routes/User/UserRoutes";
+import PostRoutes from "./routes/Post/PostRoutes";
+import FollowerRoutes from "./routes/Follower/FollowerRoutes"
 
 import http from "http"
 import { Server } from "socket.io"

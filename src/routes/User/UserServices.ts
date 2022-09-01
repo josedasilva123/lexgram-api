@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import User from "../models/user";
+import User from "../../models/user";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -11,9 +11,9 @@ import {
   iRegisterSucessResponse,
   iVerifySlugQuery,
   iVerifySlugSucessResponse,
-} from "../interfaces/user";
+} from "./user";
 
-import { iErrorResponse } from "../interfaces/global";
+import { iErrorResponse } from "../../interfaces/global";
 import { ObjectId } from "mongodb";
 
 export default class UserServices {

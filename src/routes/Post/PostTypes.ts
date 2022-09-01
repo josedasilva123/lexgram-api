@@ -1,3 +1,8 @@
+export interface iCreateBody{
+  userID: string;
+  description: string;
+}
+
 export interface iLike{
   userID: string;
   userName: string
