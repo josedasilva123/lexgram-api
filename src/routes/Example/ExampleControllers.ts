@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { deleteServerFile, getFile, uploadFile } from "../functions/googledrive/fileupload";
+import { deleteServerFile, getFile, uploadFile } from "../../functions/googledrive/fileupload";
 import sharp from "sharp";
 
 export const EXAMPLE_GET = (req: Request, res: Response) => {

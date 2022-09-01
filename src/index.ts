@@ -1,6 +1,6 @@
 import { connect } from "./config/db";
 import { serverHttp } from "./server";
-import './socket'
+import './socket/Notifications'
 
 const port = process.env.PORT || 3030;
 
