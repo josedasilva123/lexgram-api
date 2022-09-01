@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
+
 import User from "../../models/user";
+
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -8,23 +10,18 @@ import {
   iLoginBody,
   iLoginSucessResponse,
   iRegisterBody,
-  iRegisterSucessResponse,
+  iUser,
   iVerifySlugQuery,
-  iVerifySlugSucessResponse,
-} from "./user";
-
+} from "./UserTypes";
 import { iErrorResponse } from "../../interfaces/global";
 import { ObjectId } from "mongodb";
 
 export default class UserServices {
-  static async Register(
-    req: Request<{}, {}, iRegisterBody, {}>,
-    res: Response<iRegisterSucessResponse | iErrorResponse>
-  ) {
-    const { name, email, password, slug } = req.body;
+  static async Register(body: iRegisterBody) {
+    const { name, email, password, slug } = body;
 
-    const existingEmail = await User.findOne({ email: email });
-    const existingSlug = await User.findOne({ slug: slug });
+    const existingEmail = await User.findOne({ email: email }) as iUser;
+    const existingSlug = await User.findOne({ slug: slug }) as iUser;
 
     if (existingEmail) {
       throw new Error("O e-mail fornecido já pertece a um usuário cadastrado.");
@@ -43,16 +40,13 @@ export default class UserServices {
 
     await User.create(newUser);
 
-    res.status(200).json({ message: "Cadastrado realizado com sucesso!" });
+    return { message: "Cadastrado realizado com sucesso!" };
   }
 
-  static async Login(
-    req: Request<{}, {}, iLoginBody, {}>,
-    res: Response<iLoginSucessResponse | iErrorResponse>
-  ) {
-    const { email, password } = req.body;
+  static async Login(body: iLoginBody) {
+    const { email, password } = body;
 
-    const existingUser = await User.findOne({ email: email });
+    const existingUser = await User.findOne({ email: email }) as iUser;
 
     if (!existingUser) {
       throw new Error("Nenhum usuário vínculado a esse e-mail encontrado.");
@@ -79,7 +73,7 @@ export default class UserServices {
       { expiresIn: "12h" }
     );
 
-    res.status(200).json({
+    return {
       user: {
         _id: existingUser._id,
         name: existingUser.name,
@@ -92,7 +86,7 @@ export default class UserServices {
         followers: existingUser.followers,
       },
       token: token,
-    });
+    };
   }
 
   static async AutoLogin(
@@ -103,7 +97,7 @@ export default class UserServices {
 
     const userID = new ObjectId(decodedID);
 
-    const existingUser = await User.findOne({ _id: userID });
+    const existingUser = await User.findOne({ _id: userID }) as iUser;
 
     if (!existingUser) {
       throw new Error("Usuário não encontrado.");
@@ -124,14 +118,16 @@ export default class UserServices {
     });
   }
 
-  static async VerifySlug(req: Request<{},{},{}, iVerifySlugQuery>, res: Response<iVerifySlugSucessResponse | iErrorResponse>){
-    const { slug } = req.query;
+  static async VerifySlug(
+    query: iVerifySlugQuery
+  ) {
+    const { slug } = query;
     const existingSlug = await User.findOne({ slug: slug });
 
-    if(existingSlug){
-      throw new Error("O slug já está utilizado por outro usuário.")
+    if (existingSlug) {
+      throw new Error("O slug já está utilizado por outro usuário.");
     }
 
-    res.status(200).json({ message: "Slug disponível."})
+    return { message: "Slug disponível." };
   }
 }
