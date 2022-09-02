@@ -20,6 +20,8 @@ io.on("connection", (socket) => {
 
   socket.on("@Notify", async (data) => {
     try {
+      const { userID, notification } = data;
+      
       const objectUserID = new ObjectId(String(data.userID));
       const currentUser = (await User.findOne({ _id: objectUserID })) as iUser;
       const notificationList = currentUser?.notifications ? currentUser.notifications : [];
