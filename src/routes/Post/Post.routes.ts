@@ -3,7 +3,7 @@ import { Router } from "express";
 import { Authenticate } from "../../middlewares/authenticate";
 import { HandleErrors } from "../../middlewares/handleErrors";
 import { Validate } from "../../middlewares/handleValidation";
-import { postCreateValidation } from "../../middlewares/validations/PostValidations";
+import { postCreateValidation } from "./PostValidations";
 
 import PostControllers from "./PostControllers";
 

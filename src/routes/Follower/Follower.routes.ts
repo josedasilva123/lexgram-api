@@ -3,7 +3,7 @@ import { Router } from "express";
 import { Authenticate } from "../../middlewares/authenticate";
 import { HandleErrors } from "../../middlewares/handleErrors";
 import { Validate } from "../../middlewares/handleValidation";
-import { followValidation } from "../../middlewares/validations/FollowValidations";
+import { followValidation } from "./FollowerValidations";
 
 import FollowerControllers from "./FollowerControllers";
 

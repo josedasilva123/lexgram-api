@@ -5,7 +5,7 @@ import { Validate } from "../../middlewares/handleValidation";
 import {
   userLoginValidation,
   userRegisterValidation,
-} from "../../middlewares/validations/UserValidations";
+} from "./UserValidations";
 import UserControllers from "./UserControllers";
 
 const router: Router = Router();
