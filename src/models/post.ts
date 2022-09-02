@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
 import { iLike, iComments } from "../routes/Post/PostTypes";
 
-
 const postSchema = new Schema({
     userID: { type: String, required: true},
     image: { type: String, required: true},
