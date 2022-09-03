@@ -9,8 +9,6 @@ import FollowerRoutes from "./routes/Follower/Follower.routes"
 import http from "http"
 import { Server } from "socket.io"
 
-dotenv.config();
-
 const app = express();
 
 app.use(cors());
