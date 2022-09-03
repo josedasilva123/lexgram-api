@@ -3,7 +3,7 @@ import sharp from "sharp";
 import {
   deleteServerFile,
   uploadFile,
-} from "../../functions/googledrive/fileupload";
+} from "../../functions/GoogleDrive/fileupload";
 import { nextPage } from "../../functions/utils/pagination";
 import { iCreateBody, iPostGetQuery } from "./PostTypes";
 import { iUser, iFollower } from "../User/UserTypes"
