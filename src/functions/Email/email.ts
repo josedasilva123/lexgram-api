@@ -1,11 +1,8 @@
-import SendGridMail, { MailDataRequired } from "@sendgrid/mail";
-import dotenv from "dotenv";
-dotenv.config();
-SendGridMail.setApiKey(process.env.SENDGRID_API_KEY as string)
-
+import { MailDataRequired } from "@sendgrid/mail";
+import { SendgridMail } from "../../server";
 
 export default class EmailServices{
     static async SendEmail(message: MailDataRequired | MailDataRequired[]){  
-        await SendGridMail.send(message);
+        await SendgridMail.send(message);
     }
 }
