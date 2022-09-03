@@ -57,3 +57,12 @@ export interface iVerifySlugQuery{
 export interface iVerifySlugSucessResponse{
     message: string;
 }
+
+export interface iChangePasswordRequest{
+    email: string;
+}
+
+export interface iChangePassword{
+    decodedID: string;
+    password: string;
+}

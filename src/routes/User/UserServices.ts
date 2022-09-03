@@ -1,17 +1,18 @@
-import { Request, Response } from "express";
 import User from "../../models/user";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import {
   iAutoLoginBody,
+  iChangePassword,
+  iChangePasswordRequest,
   iLoginBody,
-  iLoginSucessResponse,
   iRegisterBody,
   iUser,
   iVerifySlugQuery,
 } from "./UserTypes";
-import { iErrorResponse } from "../../interfaces/global";
+
 import { ObjectId } from "mongodb";
+import EmailServices from "../../functions/Email/email";
 
 export default class UserServices {
   static async Register(body: iRegisterBody) {
@@ -121,5 +122,72 @@ export default class UserServices {
     }
 
     return { message: "Slug disponível." };
+  }
+
+  static async ChangePasswordRequest(body: iChangePasswordRequest) {
+    const { email } = body;
+
+    const existingUser = (await User.findOne({ email: email })) as iUser;
+
+    if (!existingUser) {
+      throw new Error("Nenhum usuário vínculado a esse e-mail encontrado.");
+    }
+
+    const secretKey = process.env.JWT_SECRET_RECOVER;
+
+    if (!secretKey) {
+      throw new Error("Falha na API: contate o responsável pela aplicação");
+    }
+
+    const token = jwt.sign(
+      {
+        id: existingUser._id,
+      },
+      secretKey,
+      { expiresIn: 900 }
+    );
+
+    const recoverURL = `${process.env.BASE_URL}/recoverpassword?recover=${token}`;
+
+    EmailServices.SendEmail({
+      from: process.env.SENDGRID_MAIL as string,
+      to: email,
+      subject: "Recuperar Senha: Lexgram",
+      text: "Este é o e-mail de recuperação de senha da plataforma Lexgram",
+      html: `
+        <h1>Recupere sua senha</h1>
+        <br/>
+        <p>Você pode recuperar sua senha por meio do link abaixo (lembrando que ele expira em 15 minutos):</p>
+        <br/>
+        <p><a href="${recoverURL}">Recuperar senha</a></p>
+      `,
+    });
+
+    return { token: token };
+  }
+
+  static async ChangePassword(body: iChangePassword) {
+    const { decodedID, password } = body;
+
+    const userID = new ObjectId(decodedID);
+
+    const existingUser = (await User.findOne({ _id: userID })) as iUser;
+
+    if (!existingUser) {
+      throw new Error("Nenhum usuário vínculado a esse e-mail encontrado.");
+    }
+
+    const newPassword = bcrypt.hashSync(password, 1);
+
+    await User.updateOne(
+      { _id: existingUser._id },
+      {
+        $set: {
+          password: newPassword,
+        },
+      }
+    );
+
+    return { message: 'Senha alterada com sucesso!'}
   }
 }
