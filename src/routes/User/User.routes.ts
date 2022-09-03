@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { Authenticate } from "../../middlewares/authenticate";
+import { Authenticate, AuthenticatePassword } from "../../middlewares/authenticate";
 import { HandleErrors } from "../../middlewares/handleErrors";
 import { Validate } from "../../middlewares/handleValidation";
 import {
+  userChangePasswordRequestValidation,
+  userChangePasswordValidation,
   userLoginValidation,
   userRegisterValidation,
 } from "./UserValidations";
@@ -14,5 +16,7 @@ router.post("/", userRegisterValidation(), Validate, HandleErrors(UserController
 router.post("/login", userLoginValidation(), Validate, HandleErrors(UserControllers.Login));
 router.post("/autologin", Authenticate, HandleErrors(UserControllers.AutoLogin));
 router.get("/verify/:slug", HandleErrors(UserControllers.AutoLogin));
+router.post("/password/", userChangePasswordRequestValidation(), Validate, HandleErrors(UserControllers.ChangePasswordRequest));
+router.patch("/password/", userChangePasswordValidation(), Validate, AuthenticatePassword,HandleErrors(UserControllers.ChangePassword));
 
 export default router;

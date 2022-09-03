@@ -3,8 +3,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import {
   iAutoLoginBody,
-  iChangePassword,
-  iChangePasswordRequest,
+  iChangePasswordBody,
+  iChangePasswordRequestBody,
   iLoginBody,
   iRegisterBody,
   iUser,
@@ -124,7 +124,7 @@ export default class UserServices {
     return { message: "Slug disponível." };
   }
 
-  static async ChangePasswordRequest(body: iChangePasswordRequest) {
+  static async ChangePasswordRequest(body: iChangePasswordRequestBody) {
     const { email } = body;
 
     const existingUser = (await User.findOne({ email: email })) as iUser;
@@ -163,10 +163,10 @@ export default class UserServices {
       `,
     });
 
-    return { token: token };
+    return { message: "Solicitação de senha recuperação de senha executada com sucesso!" };
   }
 
-  static async ChangePassword(body: iChangePassword) {
+  static async ChangePassword(body: iChangePasswordBody) {
     const { decodedID, password } = body;
 
     const userID = new ObjectId(decodedID);

@@ -58,11 +58,19 @@ export interface iVerifySlugSucessResponse{
     message: string;
 }
 
-export interface iChangePasswordRequest{
+export interface iChangePasswordRequestBody{
     email: string;
 }
 
-export interface iChangePassword{
+export interface iChangePasswordRequestSucessResponse{
+    message: string;
+}
+
+export interface iChangePasswordBody{
     decodedID: string;
     password: string;
+}
+
+export interface iChangePasswordSucessResponse{
+    message: string;
 }

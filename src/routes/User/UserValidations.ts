@@ -29,3 +29,19 @@ export const userLoginValidation = () => {
         .withMessage('A senha (password) é obrigatória'),       
     ]
 }
+
+export const userChangePasswordRequestValidation = () => {
+    return [
+        body('email')
+        .isString()
+        .withMessage('O e-mail (email) é obrigatório'),   
+    ]
+}
+
+export const userChangePasswordValidation = () => {
+    return [
+        body('password')
+        .isString()
+        .withMessage('A senha (password) é obrigatória'),   
+    ]
+}

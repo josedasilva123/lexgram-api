@@ -8,6 +8,9 @@ import {
   iRegisterBody,
   iRegisterSucessResponse,
   iVerifySlugSucessResponse,
+  iChangePasswordRequestSucessResponse,
+  iChangePasswordRequestBody,
+  iChangePasswordBody,
 } from "./UserTypes";
 
 import { iErrorResponse } from "../../interfaces/global";
@@ -44,6 +47,22 @@ export default class UserControllers {
     res: Response<iVerifySlugSucessResponse | iErrorResponse>
   ) {
     const response = await UserServices.VerifySlug(req.query);
+    res.status(200).json(response);
+  }
+
+  static async ChangePasswordRequest(
+    req: Request<{}, {}, iChangePasswordRequestBody, {}>,
+    res: Response<iChangePasswordRequestSucessResponse | iErrorResponse>
+  ) {
+    const response = await UserServices.ChangePasswordRequest(req.body);
+    res.status(200).json(response);
+  }
+
+  static async ChangePassword(
+    req: Request<{}, {}, iChangePasswordBody, {}>,
+    res: Response<iChangePasswordRequestSucessResponse | iErrorResponse>
+  ) {
+    const response = await UserServices.ChangePassword(req.body);
     res.status(200).json(response);
   }
 }
