@@ -25,7 +25,7 @@ app.use(
 )
 app.use(express.json());
 
-app.use('/users', UserRoutes);
+app.use('/user', UserRoutes);
 app.use('/post', PostRoutes);
 app.use('/follower', FollowerRoutes);
 
