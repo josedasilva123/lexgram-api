@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 
 import {
   iAutoLoginBody,
-  iVerifySlugQuery,
   iLoginBody,
   iLoginSucessResponse,
   iRegisterBody,
@@ -11,6 +10,7 @@ import {
   iChangePasswordRequestSucessResponse,
   iChangePasswordRequestBody,
   iChangePasswordBody,
+  iVerifySlugParams,
 } from "./UserTypes";
 
 import { iErrorResponse } from "../../interfaces/global";
@@ -43,10 +43,10 @@ export default class UserControllers {
   }
 
   static async VerifySlug(
-    req: Request<{}, {}, {}, iVerifySlugQuery>,
+    req: Request<iVerifySlugParams, {}, {}, {}>,
     res: Response<iVerifySlugSucessResponse | iErrorResponse>
   ) {
-    const response = await UserServices.VerifySlug(req.query);
+    const response = await UserServices.VerifySlug(req.params);
     res.status(200).json(response);
   }
 

@@ -8,7 +8,7 @@ import {
   iLoginBody,
   iRegisterBody,
   iUser,
-  iVerifySlugQuery,
+  iVerifySlugParams,
 } from "./UserTypes";
 
 import { ObjectId } from "mongodb";
@@ -113,9 +113,11 @@ export default class UserServices {
     };
   }
 
-  static async VerifySlug(query: iVerifySlugQuery) {
-    const { slug } = query;
+  static async VerifySlug(params: iVerifySlugParams) {
+    const { slug } = params;
+    console.log(slug);
     const existingSlug = await User.findOne({ slug: slug });
+    console.log(existingSlug);
 
     if (existingSlug) {
       throw new Error("O slug já está utilizado por outro usuário.");

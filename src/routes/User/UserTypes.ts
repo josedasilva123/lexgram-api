@@ -50,7 +50,7 @@ export interface iAutoLoginBody{
     decodedID: string;
 }
 
-export interface iVerifySlugQuery{
+export interface iVerifySlugParams{
     slug: string;
 }
 
