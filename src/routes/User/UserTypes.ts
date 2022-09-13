@@ -51,7 +51,7 @@ export interface iAutoLoginBody{
 }
 
 export interface iVerifySlugParams{
-    slug: string;
+    slug?: string;
 }
 
 export interface iVerifySlugSucessResponse{
