@@ -2,7 +2,7 @@ import User from "../../models/user";
 import bcrypt from "bcryptjs";
 import { iRegisterBody, iUser } from "../../routes/User/UserTypes";
 
-export default class UserRegister {
+export class UserRegister {
   async execute(body: iRegisterBody) {
     const { name, email, password, slug } = body;
 

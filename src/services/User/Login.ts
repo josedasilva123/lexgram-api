@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { iLoginBody, iUser } from "../../routes/User/UserTypes";
 
-export default class UserLogin {
+export class UserLogin {
   async execute(body: iLoginBody) {
     const { email, password } = body;
 

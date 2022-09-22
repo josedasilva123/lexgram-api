@@ -1,15 +1,18 @@
 import { Request, Response } from "express";
 
 import { iCreateBody, iPostGetQuery } from "./PostTypes";
-
-import PostServices from "./PostServices";
+import { PostCreate } from "../../services/Post/Create";
+import { PostGetFollowersPosts } from "../../services/Post/GetFollowerPosts";
+import { PostGetUserPosts } from "../../services/Post/GetUserPosts";
 
 export default class PostControllers {
   static async Create(req: Request<{}, {}, iCreateBody, {}>, res: Response) {
-    const response = await PostServices.Create(
+    const create = new PostCreate();
+    const response = await create.execute(
       req.body,
       req.file as Express.Multer.File
     );
+
     res.status(200).json(response);
   }
 
@@ -17,7 +20,9 @@ export default class PostControllers {
     req: Request<{}, {}, {}, iPostGetQuery>,
     res: Response
   ) {
-    const response = await PostServices.GetFollowersPosts(req.query);
+    const get = new PostGetFollowersPosts();
+    const response = await get.execute(req.query);
+
     res.status(200).json(response);
   }
 
@@ -25,7 +30,9 @@ export default class PostControllers {
     req: Request<{}, {}, {}, iPostGetQuery>,
     res: Response
   ) {
-    const response = await PostServices.GetUserPosts(req.query);
+    const get = new PostGetUserPosts();
+    const response = await get.execute(req.query);
+
     res.status(200).json(response);
   }
 }
