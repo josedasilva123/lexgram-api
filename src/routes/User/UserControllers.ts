@@ -16,13 +16,16 @@ import {
 import { iErrorResponse } from "../../interfaces/global";
 
 import UserServices from "./UserServices";
+import UserRegister from "../../services/User/Register";
+import UserLogin from "../../services/User/Login";
 
 export default class UserControllers {
   static async Register(
     req: Request<{}, {}, iRegisterBody, {}>,
     res: Response<iRegisterSucessResponse | iErrorResponse>
   ) {
-    const response = await UserServices.Register(req.body);
+    const register = new UserRegister();
+    const response = await register.execute(req.body);
     res.status(200).json(response);
   }
 
@@ -30,7 +33,8 @@ export default class UserControllers {
     req: Request<{}, {}, iLoginBody, {}>,
     res: Response<iLoginSucessResponse | iErrorResponse>
   ) {
-    const response = await UserServices.Login(req.body);
+    const login = new UserLogin();
+    const response = await login.execute(req.body);
     res.status(200).json(response);
   }
 
