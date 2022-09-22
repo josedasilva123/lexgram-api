@@ -21,7 +21,6 @@ import { UserVerifySlug } from "../../services/User/VerifySlug";
 import { UserChangePasswordRequest } from "../../services/User/ChangePasswordRequest";
 import { UserChangePassword } from "../../services/User/ChangePassword";
 
-
 export default class UserControllers {
   static async Register(
     req: Request<{}, {}, iRegisterBody, {}>,
