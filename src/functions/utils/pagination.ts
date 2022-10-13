@@ -7,7 +7,6 @@ type iNextPage = (
 ) => string | false;
 
 export const nextPage: iNextPage = (baseURL, count, user, page, perPage) => {
-
   const formula = (Number(page) * Number(perPage)) + Number(perPage);
 
   if (count > formula) {

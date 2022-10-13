@@ -9,7 +9,7 @@ import FollowerControllers from "./FollowerControllers";
 
 const router: Router = Router();
 
-router.put('/follow', Authenticate, followValidation(), Validate, HandleErrors(FollowerControllers.Follow));
-router.put('/unfollow', Authenticate, followValidation(), Validate,  HandleErrors(FollowerControllers.Unfollow));
+router.put('/follow', followValidation(), Validate, Authenticate, HandleErrors(FollowerControllers.Follow));
+router.put('/unfollow', followValidation(), Validate, Authenticate, HandleErrors(FollowerControllers.Unfollow));
 
 export default router;
