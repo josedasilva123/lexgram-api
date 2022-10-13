@@ -1,6 +1,6 @@
 import User from "../../models/user";
 import jwt from "jsonwebtoken";
-import EmailServices from "../../functions/Email/email";
+import { EmailSend } from "../Email/Send";
 import { iChangePasswordRequestBody, iUser } from "../../routes/User/UserTypes";
 
 export class UserChangePasswordRequest {
@@ -29,7 +29,9 @@ export class UserChangePasswordRequest {
 
     const recoverURL = `${process.env.BASE_URL}/recoverpassword?recover=${token}`;
 
-    EmailServices.SendEmail({
+    const send = new EmailSend();
+
+    await send.execute({
       from: process.env.SENDGRID_MAIL as string,
       to: email,
       subject: "Recuperar Senha: Lexgram",

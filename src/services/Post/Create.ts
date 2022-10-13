@@ -3,7 +3,7 @@ import sharp from "sharp";
 import {
   deleteServerFile,
   uploadFile,
-} from "../../functions/GoogleDrive/fileupload";
+} from "../GoogleDrive/fileupload";
 import { iCreateBody } from "../../routes/Post/PostTypes";
 
 export class PostCreate {
