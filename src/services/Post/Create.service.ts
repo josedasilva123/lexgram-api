@@ -5,6 +5,7 @@ import {
   uploadFile,
 } from "../GoogleDrive/fileupload";
 import { iCreateBody } from "../../routes/Post/PostTypes";
+import { Image } from "../File/Image.service";
 
 export class PostCreate {
   async execute(body: iCreateBody, file: Express.Multer.File) {
@@ -14,22 +15,17 @@ export class PostCreate {
       throw new Error("Arquivo enviando inválido.");
     }
 
-    await sharp(file.path)
-      .resize({
-        fit: sharp.fit.contain,
-        width: 1000,
-      })
-      .webp({ quality: 50 })
-      .toFile(`uploads/webp/${file.filename}`);
+    const image = new Image();
+    const { path } = await image.optmize(file as Express.Multer.File);
 
     const compressedFile = {
       ...file,
-      path: "uploads\\webp\\" + file.filename,
+      path,
     };
 
     deleteServerFile(file.path);
 
-    const upload: any = await uploadFile(compressedFile);
+    const upload = await uploadFile(compressedFile) as any;
 
     deleteServerFile(compressedFile.path);
 

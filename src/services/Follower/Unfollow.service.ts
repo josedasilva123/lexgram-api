@@ -1,6 +1,6 @@
 import User from "../../models/user";
 import { ObjectId } from "mongodb";
-import { UserUpdate } from "../User/Update";
+import { UserUpdate } from "../User/Update.service";
 import { iFollowBody } from "../../routes/Follower/FollowerTypes";
 import { iUser, iFollower } from "../../routes/User/UserTypes";
 

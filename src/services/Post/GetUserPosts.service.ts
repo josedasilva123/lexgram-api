@@ -1,4 +1,4 @@
-import { PostFindPosts } from "./FindPost";
+import { PostFindPosts } from "./FindPost.service";
 import { iPostGetQuery } from "../../routes/Post/PostTypes";
 
 export class PostGetUserPosts extends PostFindPosts {

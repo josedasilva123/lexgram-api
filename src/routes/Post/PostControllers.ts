@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 
 import { iCreateBody, iPostGetQuery } from "./PostTypes";
-import { PostCreate } from "../../services/Post/Create";
-import { PostGetFollowersPosts } from "../../services/Post/GetFollowerPosts";
-import { PostGetUserPosts } from "../../services/Post/GetUserPosts";
+import { PostCreate } from "../../services/Post/Create.service";
+import { PostGetFollowersPosts } from "../../services/Post/GetFollowerPosts.service";
+import { PostGetUserPosts } from "../../services/Post/GetUserPosts.service";
 
 export default class PostControllers {
   static async Create(req: Request<{}, {}, iCreateBody, {}>, res: Response) {
