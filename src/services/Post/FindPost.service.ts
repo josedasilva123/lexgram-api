@@ -1,5 +1,5 @@
 import Post from "../../models/post";
-import { nextPage } from "../../functions/utils/pagination";
+import { nextPage } from "../../utils/pagination";
 import { iPostGetQuery } from "../../routes/Post/PostTypes";
 
 export class PostFindPosts {

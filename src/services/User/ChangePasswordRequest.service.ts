@@ -1,6 +1,6 @@
 import User from "../../models/user";
 import jwt from "jsonwebtoken";
-import { EmailSend } from "../Email/Send";
+import { EmailSend } from "../Email/Send.service";
 import { iChangePasswordRequestBody, iUser } from "../../routes/User/UserTypes";
 
 export class UserChangePasswordRequest {

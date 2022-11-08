@@ -1,6 +1,6 @@
 import User from "../../models/user";
 import { ObjectId } from "mongodb";
-import { PostFindPosts } from "./FindPost";
+import { PostFindPosts } from "./FindPost.service";
 import { iPostGetQuery } from "../../routes/Post/PostTypes";
 import { iUser, iFollower } from "../../routes/User/UserTypes";
 

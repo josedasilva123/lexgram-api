@@ -13,13 +13,13 @@ import {
   iVerifySlugParams,
 } from "./UserTypes";
 
-import { iErrorResponse } from "../../interfaces/global";
-import { UserLogin } from "../../services/User/Login";
-import { UserRegister } from "../../services/User/Register";
-import { UserAutoLogin } from "../../services/User/Autologin";
-import { UserVerifySlug } from "../../services/User/VerifySlug";
-import { UserChangePasswordRequest } from "../../services/User/ChangePasswordRequest";
-import { UserChangePassword } from "../../services/User/ChangePassword";
+import { iErrorResponse } from "../@types";
+import { UserLogin } from "../../services/User/Login.service";
+import { UserRegister } from "../../services/User/Register.service";
+import { UserAutoLogin } from "../../services/User/Autologin.service";
+import { UserVerifySlug } from "../../services/User/VerifySlug.service";
+import { UserChangePasswordRequest } from "../../services/User/ChangePasswordRequest.service";
+import { UserChangePassword } from "../../services/User/ChangePassword.service";
 
 export default class UserControllers {
   static async Register(

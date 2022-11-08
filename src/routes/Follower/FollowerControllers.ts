@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
-import { FollowerFollow } from "../../services/Follower/Follow";
-import { FollowerUnfollow } from "../../services/Follower/Unfollow";
+import { FollowerFollow } from "../../services/Follower/Follow.service";
+import { FollowerUnfollow } from "../../services/Follower/Unfollow.service";
 import { iFollowBody } from "./FollowerTypes";
 
 export default class FollowerControllers {
