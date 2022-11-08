@@ -2,7 +2,7 @@ import Post from "../../models/post";
 import {
   deleteServerFile,
   uploadFile,
-} from "../GoogleDrive/fileupload";
+} from "../../utils/GoogleDrive/fileupload";
 import { iCreateBody } from "../../routes/Post/PostTypes";
 import { Image } from "../File/Image.service";
 

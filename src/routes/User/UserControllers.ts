@@ -13,7 +13,7 @@ import {
   iVerifySlugParams,
 } from "./UserTypes";
 
-import { iErrorResponse } from "../../interfaces/global";
+import { iErrorResponse } from "../@types";
 import { UserLogin } from "../../services/User/Login.service";
 import { UserRegister } from "../../services/User/Register.service";
 import { UserAutoLogin } from "../../services/User/Autologin.service";
