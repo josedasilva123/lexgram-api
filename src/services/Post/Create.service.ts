@@ -1,5 +1,4 @@
 import Post from "../../models/post";
-import sharp from "sharp";
 import {
   deleteServerFile,
   uploadFile,
